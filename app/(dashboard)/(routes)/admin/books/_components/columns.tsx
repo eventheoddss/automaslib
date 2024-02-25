@@ -85,6 +85,48 @@ export const columns: ColumnDef<Book>[] = [
     }
   },
   {
+    accessorKey: "createdAt",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Created At
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const { createdAt } = row.original
+
+      if (!createdAt ){
+          return("Invalid date")
+      }
+
+      return new Date(createdAt).toLocaleString();
+    },
+  },
+  {
+    accessorKey: "updatedAt",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Updated At
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const { updatedAt } = row.original
+
+      if (!updatedAt ){
+          return("Invalid date")
+      }
+
+      return new Date(updatedAt).toLocaleString();
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       const { id } = row.original;

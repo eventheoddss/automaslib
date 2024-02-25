@@ -1,8 +1,10 @@
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+import { initialProfile } from "@/lib/initial-profile";
 
-export default function Home() {
+const Home = async() => {
+  const { profile } = await initialProfile();
+
   return (
     <section className="mt-8 mb-10 mx-6 p-4">
       <div className="flex flex-col items-center justify-center h-screen mx-auto max-w-screen-lg">
@@ -34,3 +36,5 @@ export default function Home() {
     
   )
 }
+
+export default Home;
