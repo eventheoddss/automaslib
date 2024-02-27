@@ -1,5 +1,10 @@
 
+
+import { ChatInput } from '@/components/chat/chat-input';
+import { ChatMessages } from '@/components/chat/chat-messages';
+import { currentProfile } from '@/lib/current-profile';
 import { db } from '@/lib/db';
+import { redirectToSignIn } from '@clerk/nextjs';
 
 interface Book {
   title: string;
@@ -9,6 +14,12 @@ interface Book {
   categoryId: string;
 //   status: string;
 //   copies: number;
+}
+
+interface BookIdProps {
+  params: {
+    bookId: string
+  }
 }
 
 const BookIdPage = async ({
@@ -25,6 +36,18 @@ const BookIdPage = async ({
   if (!book) {
     return <p>Book not found.</p>; // Or redirect to error page
   }
+  
+  const profile = await currentProfile();
+
+  if (!profile) {
+    return redirectToSignIn();
+  }
+
+  const member = await db.profile.findFirst({
+    where: {
+      id: profile.id,
+    }
+  });
 
   return (
     <section className="container px-6 mb-6">
@@ -66,6 +89,35 @@ const BookIdPage = async ({
 
         <div className="p-6">
           <h2 className="font-semibold text-xl text-green-600">Book Reviews</h2>
+
+            <div className="bg-white flex flex-col h-full">
+              {/* <ChatHeader
+                name={book.title}
+               
+              /> */}
+              { (
+                <>
+                  <ChatMessages
+                    profile={profile}
+                    chatId={book.id}
+                    apiUrl="/api/messages"
+                    socketUrl="/api/socket/messages"
+                    socketQuery={{
+                      bookId: book.id,
+                    }}
+                    paramKey="bookId"
+                    paramValue={book.id}
+                  />
+                  <ChatInput
+                    name={book.title}
+                    apiUrl="/api/socket/messages"
+                    query={{
+                        bookId: book.id,
+                    }}
+                  />
+                </>
+              )}
+            </div>
         </div>
 
     </section>
