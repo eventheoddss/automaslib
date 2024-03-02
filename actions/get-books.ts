@@ -7,18 +7,22 @@ type BookWithCategory = Book & {
 
 type GetBooks = {
   userId?: string;
-  title?: string;
+  search?: string; 
   categoryId?: string;
 };
 
-export const getBooks = async ({ title, categoryId }: GetBooks): Promise<BookWithCategory[]> => {
+export const getBooks = async ({ search, categoryId }: GetBooks): Promise<BookWithCategory[]> => {
   try {
     const books = await db.book.findMany({
       where: {
         isPublished: true,
-        title: {
-          contains: title,
-        },
+        ...(search ? {
+          OR: [
+            { title: { contains: search } },
+            { author: { contains: search } },
+            { publisher: { contains: search } },
+          ],
+        } : {}),
         categoryId,
       },
       include: {
@@ -29,7 +33,6 @@ export const getBooks = async ({ title, categoryId }: GetBooks): Promise<BookWit
       },
     });
 
-    
     return books;
   } catch (error) {
     console.log("[GET_BOOKS]", error);
