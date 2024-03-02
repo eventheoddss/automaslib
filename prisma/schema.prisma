@@ -14,6 +14,7 @@ model Book {
   userId      String
   title       String  @db.Text
   author      String? @db.Text
+  publisher   String? @default("")
   description String? @db.Text
   copies      Int     @default(0) @db.Int
   imageUrl    String? @db.Text
@@ -30,7 +31,7 @@ model Book {
   updatedAt DateTime @updatedAt
 
   @@index([categoryId])
-  @@fulltext([title])
+  @@fulltext([title, author, publisher])
 }
 
 model Category {
