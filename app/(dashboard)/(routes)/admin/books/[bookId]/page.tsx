@@ -13,6 +13,7 @@ import { AttachmentForm } from "./_components/attachment-form";
 import { Banner } from "@/components/banner";
 import { Actions } from "./_components/action";
 import { CopiesForm } from "./_components/copies-form";
+import { PublisherForm } from "./_components/publisher-form";
 
 const BookIdPage = async ({
     params
@@ -55,7 +56,8 @@ const BookIdPage = async ({
         book.description,
         book.imageUrl,
         book.categoryId,
-        book.copies
+        book.copies,
+        book.publisher
     ];
 
     const totalFields = requiredFields.length;
@@ -102,6 +104,10 @@ const BookIdPage = async ({
                             bookId={book.id}
                         />
                         <AuthorForm 
+                            initialData={book}
+                            bookId={book.id}
+                        />
+                        <PublisherForm 
                             initialData={book}
                             bookId={book.id}
                         />

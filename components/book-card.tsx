@@ -7,6 +7,7 @@ interface BookCardProps {
   imageUrl: string;
   author: string;
   category: string;
+  publisher: string;
 };
 
 export const BookCard = ({
@@ -14,7 +15,8 @@ export const BookCard = ({
   title,
   imageUrl,
   author,
-  category
+  category,
+  publisher
 }: BookCardProps) => {
   return (
     <Link href={`/search/books/${id}`}>
@@ -33,6 +35,9 @@ export const BookCard = ({
           </div>
           <p className="text-xs text-muted-foreground">
             {author}
+          </p>
+          <p className="text-xs italic text-muted-foreground pt-1">
+            {publisher}
           </p>
           <div className="text-xs pt-2">
             {category}

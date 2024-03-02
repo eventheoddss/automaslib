@@ -82,6 +82,9 @@ const BookIdPage = async ({
                 <p>{book.status}</p>
                 </div> */}
                 <div>
+                  <p className="font-bold mb-2 text-green-600">Publisher</p>
+                  <p className="text-gray-800 mb-4">{book.publisher}</p>
+
                   <p className="font-bold mb-2 text-green-600">Available Copies</p>
                   <p>{book.copies}</p>
                 </div>

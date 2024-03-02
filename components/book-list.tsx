@@ -24,6 +24,7 @@ export const BookList = ({
             imageUrl={item.imageUrl!}
             author={item.author!}
             category={item?.category?.name!}
+            publisher={item.publisher!}
           />
         ))}
       </div>
