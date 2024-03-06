@@ -20,7 +20,8 @@ model Book {
   imageUrl    String? @db.Text
   isPublished Boolean @default(false)
 
-  messages Message[]
+  messages  Message[]
+  bookmarks Bookmark[]
 
   categoryId String?
   category   Category? @relation(fields: [categoryId], references: [id])
@@ -61,7 +62,8 @@ model Profile {
   imageUrl String @db.Text
   email    String @db.Text
 
-  messages Message[]
+  messages  Message[]
+  bookmarks Bookmark[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -84,4 +86,18 @@ model Message {
 
   @@index([bookId])
   @@index([profileId])
+}
+
+model Bookmark {
+  id        String   @id @default(uuid())
+  profileId String
+  bookId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile Profile? @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  book    Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
+  @@index([bookId])
 }
