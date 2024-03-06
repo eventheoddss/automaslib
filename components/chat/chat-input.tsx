@@ -71,7 +71,7 @@ export const ChatInput = ({
                   <Input
                     disabled={isLoading}
                     className="px-14 py-6 bg-zinc-200/90 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600"
-                    placeholder={`Message`}
+                    placeholder={`Add a review`}
                     {...field}
                   />
                 </div>

@@ -18,7 +18,6 @@ type MessageWithProfile = Message & {
 }
 
 interface ChatMessagesProps {
-//   name: string;
   profile: Profile;
   chatId: string;
   apiUrl: string;
@@ -29,7 +28,6 @@ interface ChatMessagesProps {
 }
 
 export const ChatMessages = ({
-//   name,
   profile,
   chatId,
   apiUrl,
@@ -66,16 +64,6 @@ export const ChatMessages = ({
     count: data?.pages?.[0]?.items?.length ?? 0,
   })
 
-//   if (status === "loading") {
-//     return (
-//       <div className="flex flex-col flex-1 justify-center items-center">
-//         <Loader2 className="h-7 w-7 text-zinc-500 animate-spin my-4" />
-//         <p className="text-xs text-zinc-500 dark:text-zinc-400">
-//           Loading messages...
-//         </p>
-//       </div>
-//     )
-//   }
 
   if (status === "error") {
     return (
@@ -86,6 +74,16 @@ export const ChatMessages = ({
         </p>
       </div>
     )
+  }
+
+  if (!data?.pages?.[0]?.items?.length) {
+    return (
+      <div className="flex flex-col flex-1 justify-center items-center p-6">
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          No reviews yet.
+        </p>
+      </div>
+    );
   }
 
   return (

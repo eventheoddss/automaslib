@@ -32,12 +32,6 @@ export default async function handler(
     return res.status(404).json({ error: "Book not found" });
     }
 
-    // const member = server.members.find((member) => member.profileId === profile.id);
-
-    // if (!member) {
-    //   return res.status(404).json({ error: "Member not found" });
-    // }
-
     let message = await db.message.findFirst({
       where: {
         id: messageId as string
@@ -64,7 +58,7 @@ export default async function handler(
           id: messageId as string,
         },
         data: {
-          content: "This message has been deleted.",
+          content: "This review has been deleted.",
           deleted: true,
         },
         include: {
