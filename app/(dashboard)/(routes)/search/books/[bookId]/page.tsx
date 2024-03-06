@@ -1,10 +1,11 @@
 
-
+import BookmarkButton from '@/components/bookmark-button';
 import { ChatInput } from '@/components/chat/chat-input';
 import { ChatMessages } from '@/components/chat/chat-messages';
 import { currentProfile } from '@/lib/current-profile';
 import { db } from '@/lib/db';
 import { redirectToSignIn } from '@clerk/nextjs';
+import { File } from 'lucide-react';
 
 interface Book {
   title: string;
@@ -12,6 +13,7 @@ interface Book {
   description: string;
   imageUrl: string; 
   categoryId: string;
+  attachments: string;
 //   status: string;
 //   copies: number;
 }
@@ -30,6 +32,9 @@ const BookIdPage = async ({
   const book = await db.book.findUnique({
     where: {
       id: params.bookId,
+    },
+    include: {
+      attachments: true,
     },
   });
 
@@ -64,40 +69,58 @@ const BookIdPage = async ({
             </div>
 
             <div>
-                <p className="font-bold mb-2 text-green-600">Author</p>
+                <p className="font-semibold mb-2 text-green-600">Author</p>
                 <p className="text-gray-800 mb-4">{book.author}</p>
 
-                <h2 className="font-bold mb-2 text-green-600">Overview</h2>
+                <h2 className="font-semibold mb-2 text-green-600">Overview</h2>
                 <p className="text-gray-800 mb-4">{book.description}</p>
             </div>
         </div>
 
         <div className="flex flex-col pb-6 border-b-2">
-                {/* <div className="mb-3">
-                    <p className="font-bold mb-2 text-green-600">CategoryId</p>
-                    <p>{book.categoryId}</p>
-                </div> */}
-                {/* <div>
-                <p className="font-bold">Status:</p>
-                <p>{book.status}</p>
-                </div> */}
                 <div>
-                  <p className="font-bold mb-2 text-green-600">Publisher</p>
+                  <p className="font-semibold mb-2 text-green-600">Publisher</p>
                   <p className="text-gray-800 mb-4">{book.publisher}</p>
 
-                  <p className="font-bold mb-2 text-green-600">Available Copies</p>
+                  <p className="font-semibold mb-2 text-green-600">Available Copies</p>
                   <p>{book.copies}</p>
                 </div>
+                
+                { book.attachments.length ? (
+                  <>
+                    <div className="pt-3">
+                      <p className='font-semibold text-green-600 mb-2'>E-books</p>
+                      {book.attachments?.map((attachment) => (
+                        <a 
+                          href={attachment.url}
+                          target="_blank"
+                          key={attachment.id}
+                          className="flex items-center p-3 w-1/2 bg-sky-200 border text-sky-700 rounded-md hover:underline"
+                        >
+                          <File />
+                          <p className="line-clamp-1 overflow-hidden">
+                            {attachment.name}
+                          </p>
+                        </a>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <p className="pt-4 text-gray-500 italic"> No e-books available for this resource.</p>
+                )}
+
+              <div className="mt-2">
+                <BookmarkButton
+                  bookId={params.bookId}
+                />
+              </div>
+                
         </div>
 
         <div className="p-6">
           <h2 className="font-semibold text-xl text-green-600">Book Reviews</h2>
 
             <div className="bg-white flex flex-col h-full">
-              {/* <ChatHeader
-                name={book.title}
-               
-              /> */}
               { (
                 <>
                   <ChatMessages
