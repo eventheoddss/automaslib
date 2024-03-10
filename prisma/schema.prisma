@@ -55,12 +55,19 @@ model Attachment {
   @@index([bookId])
 }
 
+enum UserRole {
+  ADMIN
+  USER
+}
+
 model Profile {
   id       String @id @default(uuid())
   userId   String @unique
   name     String
   imageUrl String @db.Text
   email    String @db.Text
+
+  role UserRole @default(USER)
 
   messages  Message[]
   bookmarks Bookmark[]
