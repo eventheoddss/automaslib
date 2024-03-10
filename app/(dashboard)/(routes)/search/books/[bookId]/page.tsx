@@ -89,7 +89,7 @@ const BookIdPage = async ({
                 { book.attachments.length ? (
                   <>
                     <div className="pt-3">
-                      <p className='font-semibold text-green-600 mb-2'>E-books</p>
+                      <p className='font-semibold text-green-600 mb-2'>Attachments</p>
                       {book.attachments?.map((attachment) => (
                         <a 
                           href={attachment.url}
