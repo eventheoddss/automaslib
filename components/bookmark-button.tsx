@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button } from './ui/button';
 import toast from 'react-hot-toast';
@@ -17,10 +17,10 @@ const BookmarkButton: React.FC<BookmarkButtonProps> = ({ bookId }) => {
     try {
       if (isBookmarked) {
         await axios.delete(`/api/bookmarks/${bookId}`);
-        toast.success("Bookmark removed")
+        toast.success("Bookmark removed");
       } else {
         await axios.post(`/api/bookmarks/${bookId}`);
-        toast.success("Bookmark added")
+        toast.success("Bookmark added");
       }
 
       setIsBookmarked((prev) => !prev);
@@ -29,16 +29,29 @@ const BookmarkButton: React.FC<BookmarkButtonProps> = ({ bookId }) => {
     }
   };
 
+  useEffect(() => {
+    // Load bookmark state from localStorage on component mount
+    const storedBookmark = localStorage.getItem(`bookmark-${bookId}`);
+    if (storedBookmark) {
+      setIsBookmarked(JSON.parse(storedBookmark));
+    }
+  }, [bookId]);
+
+  useEffect(() => {
+    // Save bookmark state to localStorage when it changes
+    localStorage.setItem(`bookmark-${bookId}`, JSON.stringify(isBookmarked));
+  }, [bookId, isBookmarked]);
+
   return (
     <div onClick={toggleBookmark} className="cursor-pointer">
       {!isBookmarked ? (
         <Button>
-          <Bookmark className="h-4 w-4 mr-2"/>
+          <Bookmark className="h-4 w-4 mr-2" />
           Add to Bookmarks
         </Button>
       ) : (
         <Button>
-          <BookmarkX className="h-4 w-4 mr-2"/>
+          <BookmarkX className="h-4 w-4 mr-2" />
           Remove Bookmark
         </Button>
       )}
