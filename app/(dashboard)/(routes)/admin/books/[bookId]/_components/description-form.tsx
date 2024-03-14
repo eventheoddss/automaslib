@@ -29,9 +29,14 @@ interface DescriptionFormProps {
 }
 
 const formSchema = z.object({
-    description: z.string().min(1, {
+    description: z
+    .string()
+    .min(1, {
         message: "Description is required"
-    }),
+    })
+    .refine(value => value.trim() !== '' || value.length === 0, {
+        message: "Input value cannot be blank"
+    })
 });
 
 export const DescriptionForm = ({
@@ -106,7 +111,8 @@ export const DescriptionForm = ({
                                             placeholder="e.g. 'This is a good read'"
                                             {...field}
                                         />
-                                    </FormControl>  
+                                    </FormControl>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />

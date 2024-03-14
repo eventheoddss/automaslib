@@ -29,9 +29,17 @@ interface AuthorFormProps {
 }
 
 const formSchema = z.object({
-    author: z.string().min(1, {
+    author: z
+    .string()
+    .min(1, {
         message: "Author is required"
-    }),
+    })
+    .refine(value => value.trim() !== '' || value.length === 0, {
+        message: "Space cannot be the first character"
+    })
+    .refine(value => /^[A-Za-z\s]+$/.test(value), {
+        message: "Author must contain only alphabet letters and spaces"
+    })
 });
 
 export const AuthorForm = ({
@@ -46,12 +54,13 @@ export const AuthorForm = ({
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
+        defaultValues: initialData
+        ?{
             author: initialData?.author || ""
-        },
+        } : {},
     })
 
-    const { isSubmitting, isValid } = form.formState;
+    const { isSubmitting, isValid, errors } = form.formState;
     
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -106,7 +115,12 @@ export const AuthorForm = ({
                                             placeholder="e.g. 'Albert Camus'"
                                             {...field}
                                         />
-                                    </FormControl>  
+                                    </FormControl>
+                                    {errors.author && (
+                                        <FormMessage>
+                                            {errors.author.message}
+                                        </FormMessage>
+                                    )}
                                 </FormItem>
                             )}
                         />

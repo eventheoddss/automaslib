@@ -28,10 +28,22 @@ interface TitleFormProps {
 }
 
 const formSchema = z.object({
-    title: z.string().min(1, {
+    title: z
+    .string()
+    .min(1, {
         message: "Title is required"
-    }),
+    })
+    .refine(value => value.trim() !== '' || value.length === 0, {
+        message: "Input value cannot be blank"
+    })
+    .refine((value) => {
+        return /^[A-Za-z0-9\s]+$/.test(value);
+    }, {
+        message: "Invalid characters",
+    })
 });
+
+
 
 export const TitleForm = ({
     initialData,
@@ -100,7 +112,8 @@ export const TitleForm = ({
                                             placeholder="e.g. 'The Stranger'"
                                             {...field}
                                         />
-                                    </FormControl>  
+                                    </FormControl>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />

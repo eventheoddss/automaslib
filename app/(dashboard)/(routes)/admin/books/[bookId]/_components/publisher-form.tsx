@@ -29,9 +29,31 @@ interface PublisherFormProps {
 }
 
 const formSchema = z.object({
-    publisher: z.string().min(1, {
+    publisher: z
+    .string()
+    .min(1, {
         message: "Publisher is required"
-    }),
+    })
+    .refine((value) => {
+        return value.trim().length > 0 && value.trim()[0] !== " ";
+      }, {
+        message: "Invalid publisher format",
+    })
+    .refine((value) => {
+        return /^[A-Za-z\s&-]+$/.test(value);
+      }, {
+        message: "Invalid characters or format",
+      })
+      .refine((value) => {
+        return !(/[-&]{2,}/.test(value));
+      }, {
+        message: "Hyphens and ampersands cannot appear consecutively",
+      })
+      .refine((value) => {
+        return !(/^[-&]|[-&]$/.test(value));
+      }, {
+        message: "Hyphens and ampersands cannot appear at the start or end",
+      }),
 });
 
 export const PublisherForm = ({
@@ -106,7 +128,8 @@ export const PublisherForm = ({
                                             placeholder="e.g. 'Macmillan'"
                                             {...field}
                                         />
-                                    </FormControl>  
+                                    </FormControl>
+                                    <FormMessage/>
                                 </FormItem>
                             )}
                         />
