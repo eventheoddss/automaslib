@@ -73,32 +73,6 @@ export const columns: ColumnDef<Book>[] = [
     },
   },
   {
-    accessorKey: "isPublished",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Listed
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-    cell: ({ row }) => {
-      const isPublished = row.getValue("isPublished") || false;
-
-      return (
-        <Badge className={cn(
-          "bg-gray-3/00",
-          isPublished && "bg-green-500"
-        )}>
-          {isPublished ? "Listed" : "Draft"}
-        </Badge>
-      )
-    }
-  },
-  {
     accessorKey: "createdAt",
     header: ({ column }) => (
       <Button

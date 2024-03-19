@@ -20,25 +20,25 @@ export const userColumns: ColumnDef<Profile>[] = [
       ),
     },
     {
-        accessorKey: "email",
-        header: ({ column }) => (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Email
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        ),
-      },
-    {
-      accessorKey: "userId",
+      accessorKey: "email",
       header: ({ column }) => (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          User ID
+          Email
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      ),
+    },
+    {
+      accessorKey: "role",
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Role
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
@@ -64,26 +64,5 @@ export const userColumns: ColumnDef<Profile>[] = [
         return new Date(createdAt).toLocaleString();
       },
     },
-    {
-        accessorKey: "updatedAt",
-        header: ({ column }) => (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Updated At
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        ),
-        cell: ({ row }) => {
-          const { updatedAt } = row.original
-  
-          if (!updatedAt ){
-              return("Invalid date")
-          }
-  
-          return new Date(updatedAt).toLocaleString();
-        },
-      },
   ];
   
