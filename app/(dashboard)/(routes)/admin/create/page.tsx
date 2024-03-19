@@ -52,9 +52,6 @@ const CreatePage = () => {
            <h1 className="text-2xl pb-3">
                 Add a new resource
            </h1>
-           <p className="text-sm text-slate-600">
-                What is the title of the book to be added?
-           </p>
            <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}

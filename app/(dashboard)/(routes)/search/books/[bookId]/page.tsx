@@ -56,7 +56,15 @@ const BookIdPage = async ({
 
   return (
     <section className="container px-6 mb-6">
-        <h1 className="text-xl font-bold p-6 mb-4">{book.title}</h1>
+        <div className='flex mb-4 p-6 justify-between'>
+          <h1 className="text-xl font-bold">{book.title}</h1>
+          <div className="">
+            <BookmarkButton
+              bookId={params.bookId}
+            />
+          </div>
+        </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div className="md:mr-4">
                 {book.imageUrl && (
@@ -109,11 +117,7 @@ const BookIdPage = async ({
                   <p className="pt-4 text-gray-500 italic"> No e-books available for this resource.</p>
                 )}
 
-              <div className="mt-2">
-                <BookmarkButton
-                  bookId={params.bookId}
-                />
-              </div>
+              
                 
         </div>
 

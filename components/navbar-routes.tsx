@@ -1,19 +1,21 @@
 "use client"
 
-import { UserButton } from "@clerk/nextjs"
+import { UserButton, useAuth } from "@clerk/nextjs"
 import { usePathname, useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
+import { LogOut, Shield } from "lucide-react";
 import Link from "next/link";
 import { SearchInput } from "./search-input";
+import { isLibrarian } from "@/lib/librarian";
 
 export const NavbarRoutes = () => {
+    const { userId } = useAuth();
     const pathname = usePathname();
 
     const isAdminPage = pathname?.startsWith("/admin");
-    const isPlayerPage = pathname?.includes("/resource");
     const isSearchPage = pathname === "/search";
+    const isBookmarksPage = pathname === "/bookmarks";
 
     return (
         <>
@@ -22,21 +24,27 @@ export const NavbarRoutes = () => {
                     <SearchInput />
                 </div>
             )}
+            {isBookmarksPage && (
+                <div className="hidden md:block">
+                    <SearchInput />
+                </div>
+            )}
             <div className="flex gap-x-2 ml-auto">
-                {/* {isAdminPage || isPlayerPage ? (
+                {isAdminPage ? (
                     <Link href="/">
-                        <Button>
-                        <LogOut className="h-4 w-4 mr-2"/>
-                        Exit
-                    </Button>
+                        <Button variant="ghost">
+                            <LogOut className="h-4 w-4 mr-2"/>
+                            Home
+                        </Button>
                     </Link>
-                ): (
-                    <Link href="/admin/books">
-                    <Button size="sm" variant="ghost">
-                        Admin Mode
-                    </Button>
+                ): isLibrarian(userId) ? (
+                    <Link href="/admin/dashboard">
+                        <Button size="sm" variant="ghost">
+                            <Shield className="h-4 w-4 mr-2" />
+                            Admin
+                        </Button>
                     </Link>
-                )} */}
+                ): null}
                 <UserButton
                     afterSignOutUrl="/"
                 />

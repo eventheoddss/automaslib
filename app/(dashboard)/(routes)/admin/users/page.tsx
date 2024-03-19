@@ -14,9 +14,6 @@ const UsersPage = async () => {
   }
 
   const profiles = await db.profile.findMany({
-    // where: {
-    //   userId,
-    // },
     orderBy: {
       createdAt: "desc",
     },

@@ -1,6 +1,6 @@
 "use client"
 
-import { BookMarked, Home, LayoutDashboard, Library, LibraryBig, User } from "lucide-react"
+import { BookMarked, Home, LayoutDashboard, Library, LibraryBig, Users } from "lucide-react"
 import { SidebarItem } from "./sidebar-item";
 import { usePathname } from "next/navigation";
 
@@ -34,7 +34,7 @@ const adminRoutes = [
         href: "/admin/books",
     },
     {
-        icon: User,
+        icon: Users,
         label: "Users",
         href: "/admin/users",
     },
