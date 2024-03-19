@@ -25,9 +25,9 @@ const CustomChart: React.FC<ChartProps> = ({ data, chartType }) => {
     if (!ctx) return;
 
     const categoryColors: CategoryColors = {
-      Books: 'orange',
-      Reviews: 'blue',
-      Bookmarks: 'green',
+      Books: 'gray',
+      Reviews: 'brown',
+      Bookmarks: 'orange',
     };
 
     const existingChart = Chart.getChart(chartRef.current);
@@ -45,7 +45,7 @@ const CustomChart: React.FC<ChartProps> = ({ data, chartType }) => {
           backgroundColor: categoryColors[Object.keys(categoryColors)[index]],
           borderColor: 'black',
           borderWidth: 1,
-          barPercentage: 0.5,
+          barPercentage: 0.7,
           categoryPercentage: 0.5,
         })),
       },
